@@ -3,6 +3,7 @@ black~=24.8
 ruff~=0.6
 mypy~=1.11
 coverage~=7.6
+pytest-cov~=5.0
 python-semantic-release~=9.9
 build~=1.2
 bandit~=1.7
