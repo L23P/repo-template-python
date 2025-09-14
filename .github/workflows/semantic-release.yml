@@ -3,6 +3,9 @@ name: Release (semantic-release)  # Optional: manual only; remove if not needed
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   release:
     runs-on: ubuntu-latest

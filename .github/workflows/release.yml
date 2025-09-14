@@ -3,6 +3,9 @@ name: Release  # Optional: manual packaging/releases; remove if not needed
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build-release:
     runs-on: ubuntu-latest
