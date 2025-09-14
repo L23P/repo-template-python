@@ -1,21 +1,31 @@
-# Python Repo Template
+# Python Repository Template
 
-A clean, reusable template to bootstrap new Python projects with tests, linting, formatting, CI, and sensible defaults.
+[![CI](https://github.com/L23P/repo-template-python/actions/workflows/ci.yml/badge.svg)](https://github.com/L23P/repo-template-python/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-## Features
+A clean, reusable template to bootstrap new Python projects with testing, linting, formatting, continuous integration, and sensible defaults.
 
-- Ready-to-run GitHub Actions CI (lint + tests)
-- ruff + black wired for lint/format
-- pytest configured with example tests
-- Preconfigured .gitignore, .editorconfig, and VS Code settings
-- CODEOWNERS support
-- MIT license (customize as needed)
+## What’s included
 
-## Quick start
+| Area | Tooling / Files |
+|---|---|
+| Linting | ruff (configured in `pyproject.toml`) |
+| Formatting | black (configured in `pyproject.toml`) |
+| Testing | pytest (`tests/`, basic example) |
+| CI | GitHub Actions (`.github/workflows/ci.yml`) |
+| Dependency updates | Dependabot (`.github/dependabot.yml`) |
+| Git hooks | pre-commit (`.pre-commit-config.yaml`) |
+| Ownership | CODEOWNERS (`.github/CODEOWNERS`) |
+| Editor/formatting | `.editorconfig`, `.gitattributes`, `.vscode/settings.json` |
+| Packaging | `pyproject.toml` (Python ≥ 3.10) |
 
-1. Use this template to create a new repository on GitHub.
-2. Clone your new repo locally.
-3. Create a virtual environment and install dev tools.
+## Use this template
+
+1. Create your repository from this template:
+   - Open: https://github.com/L23P/repo-template-python/generate
+   - Choose a name, set visibility, then create
+2. Clone your new repository locally.
+3. Set up your environment and developer tools.
 
 ```powershell
 python -m venv .venv
@@ -23,7 +33,7 @@ python -m venv .venv
 pip install -r requirements-dev.txt
 ```
 
-4. Run lint and tests.
+4. Run the checks.
 
 ```powershell
 ruff check .
@@ -31,19 +41,37 @@ black --check .
 pytest -q
 ```
 
-## Customize
+5. (Optional) Enable pre-commit hooks to auto-fix issues before commit.
 
-- Update `pyproject.toml` (name, version, tooling)
-- Edit `README.md` and `LICENSE`
-- Adjust `CODEOWNERS` to your team
-- Add or modify workflows under `.github/workflows`
+```powershell
+pip install pre-commit
+pre-commit install
+```
 
-## Project layout
+## Development workflow
+
+- Write code under `src/` (rename the package `project_template` to your project name).
+- Add tests in `tests/` and run with `pytest`.
+- Keep code clean with `ruff` and `black`.
+- CI runs on pushes and pull requests to `main`.
+
+## Continuous integration
+
+The workflow at `.github/workflows/ci.yml` runs on Ubuntu and performs:
+1. Checkout and Python setup (3.11 by default)
+2. Dependency installation (`requirements*.txt` if present)
+3. Linting via ruff and formatting check via black
+4. Tests via pytest
+
+You can adjust Python versions, cache settings, or add steps as needed.
+
+## Project structure
 
 ```
 repo-template-python/
   .github/
     CODEOWNERS
+    dependabot.yml
     workflows/
       ci.yml
   .vscode/
@@ -54,10 +82,25 @@ repo-template-python/
   tests/
     test_sample.py
   .editorconfig
+  .gitattributes
   .gitignore
+  .pre-commit-config.yaml
+  CONTRIBUTING.md
   LICENSE
   pyproject.toml
   README.md
   requirements.txt
   requirements-dev.txt
 ```
+
+## Customize
+
+- Update `pyproject.toml` with your package `name`, `version`, and metadata.
+- Rename the package directory from `project_template` to your chosen import name.
+- Adjust `CODEOWNERS` to your user or team.
+- Edit `README.md` and `LICENSE` to reflect your project.
+- Modify `.github/workflows/ci.yml` for additional steps or Python versions.
+
+## License
+
+This template is licensed under the MIT License. See [LICENSE](LICENSE) for details.
