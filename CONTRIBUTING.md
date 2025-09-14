@@ -26,3 +26,9 @@ Thanks for contributing! To get started:
    ```
 
 Please open a draft PR early for feedback. Make sure CI passes before requesting review.
+
+## Commit messages and changelog
+
+- Follow Conventional Commits: https://www.conventionalcommits.org/en/v1.0.0/
+   - Examples: `feat: add new subcommand`, `fix: handle empty input gracefully`, `docs: update README`
+- Update `CHANGELOG.md` when user-facing changes are introduced. Group entries under Added/Changed/Fixed/Removed.

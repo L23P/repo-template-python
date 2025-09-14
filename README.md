@@ -101,6 +101,14 @@ repo-template-python/
 - Edit `README.md` and `LICENSE` to reflect your project.
 - Modify `.github/workflows/ci.yml` for additional steps or Python versions.
 
+## Versioning and changelog
+
+This project follows Semantic Versioning. See the [Changelog](CHANGELOG.md) for release notes and unreleased changes.
+
+If you adopt this template, consider following the same approach and documenting your release notes clearly.
+
+For guidance on structuring your README effectively, see [docs/README_FORMAT.md](docs/README_FORMAT.md).
+
 ## License
 
 This template is licensed under the MIT License. See [LICENSE](LICENSE) for details.
