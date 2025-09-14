@@ -109,6 +109,20 @@ If you adopt this template, consider following the same approach and documenting
 
 For guidance on structuring your README effectively, see [docs/README_FORMAT.md](docs/README_FORMAT.md).
 
+## Automated releases
+
+This template supports automated versioning and GitHub Releases via `python-semantic-release` when you enable the included workflow. Releases are determined by commit messages following [Conventional Commits](https://www.conventionalcommits.org/):
+
+- `fix:` → patch release
+- `feat:` → minor release
+- `feat!:` or `BREAKING CHANGE:` → major release
+
+On push to `main`, the workflow:
+1. Calculates the next version from commit history
+2. Updates `pyproject.toml` and `src/.../__init__.py` versions
+3. Updates `CHANGELOG.md`
+4. Creates a Git tag and GitHub Release
+
 ## License
 
 This template is licensed under the MIT License. See [LICENSE](LICENSE) for details.
