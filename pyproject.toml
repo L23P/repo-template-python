@@ -18,16 +18,6 @@ package-dir = {"" = "src"}
 where = ["src"]
 include = ["project_template*"]
 
-[tool.semantic_release]
-version_toml = ["pyproject.toml:project.version"]
-version_variables = ["src/project_template/__init__.py:__version__"]
-branch = "main"
-changelog_file = "CHANGELOG.md"
-build_command = "python -m build"
-upload_to_release = true
-tag_format = "v{version}"
-major_on_zero = false
-
 [tool.black]
 line-length = 88
 

@@ -1,9 +1,7 @@
-name: Release
+name: Release  # Optional: manual packaging/releases; remove if not needed
 
 on:
-  push:
-    tags:
-      - 'v*.*.*'
+  workflow_dispatch:
 
 jobs:
   build-release:

@@ -1,8 +1,7 @@
-name: Release (semantic-release)
+name: Release (semantic-release)  # Optional: manual only; remove if not needed
 
 on:
-  push:
-    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   release:

@@ -3,7 +3,7 @@
 [![CI](https://github.com/L23P/repo-template-python/actions/workflows/ci.yml/badge.svg)](https://github.com/L23P/repo-template-python/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-A clean, reusable template to bootstrap new Python projects with testing, linting, formatting, continuous integration, and sensible defaults.
+A clean, reusable template to bootstrap new Python projects with a lean DevSecOps baseline: tests, linting/formatting, type checks, SAST, dependency audits, and CI.
 
 ## What’s included
 
@@ -12,7 +12,7 @@ A clean, reusable template to bootstrap new Python projects with testing, lintin
 | Linting | ruff (configured in `pyproject.toml`) |
 | Formatting | black (configured in `pyproject.toml`) |
 | Testing | pytest (`tests/`, basic example) |
-| CI | GitHub Actions (`.github/workflows/ci.yml`) |
+| CI | GitHub Actions (`.github/workflows/ci.yml`, `codeql.yml`, `scorecards.yml`) |
 | Dependency updates | Dependabot (`.github/dependabot.yml`) |
 | Git hooks | pre-commit (`.pre-commit-config.yaml`) |
 | Ownership | CODEOWNERS (`.github/CODEOWNERS`) |
@@ -38,7 +38,11 @@ pip install -r requirements-dev.txt
 ```powershell
 ruff check .
 black --check .
+mypy src
 pytest -q
+# Optional local security checks
+bandit -q -r src -x tests
+pip-audit
 ```
 
 5. (Optional) Enable pre-commit hooks to auto-fix issues before commit.
@@ -55,13 +59,21 @@ pre-commit install
 - Keep code clean with `ruff` and `black`.
 - CI runs on pushes and pull requests to `main`.
 
-## Continuous integration
+## Continuous integration and security
 
-The workflow at `.github/workflows/ci.yml` runs on Ubuntu and performs:
-1. Checkout and Python setup (3.11 by default)
-2. Dependency installation (`requirements*.txt` if present)
-3. Linting via ruff and formatting check via black
-4. Tests via pytest
+The CI at `.github/workflows/ci.yml` runs on push/PR and includes:
+1. Linting (ruff), formatting check (black), typing (mypy)
+2. Tests with coverage (threshold 80%)
+3. SAST with Bandit
+4. Dependency vulnerability scan with pip-audit
+5. SBOM generation (CycloneDX) and artifact upload
+
+Additional security:
+- CodeQL SAST (`.github/workflows/codeql.yml`)
+- OpenSSF Scorecards (`.github/workflows/scorecards.yml`)
+- Dependabot for pip and Actions (`.github/dependabot.yml`)
+
+See `SECURITY_BASELINE.md` for a concise mapping to NIST SSDF and what's in/out of scope.
 
 You can adjust Python versions, cache settings, or add steps as needed.
 
@@ -109,19 +121,9 @@ If you adopt this template, consider following the same approach and documenting
 
 For guidance on structuring your README effectively, see [docs/README_FORMAT.md](docs/README_FORMAT.md).
 
-## Automated releases
+## Optional automated releases
 
-This template supports automated versioning and GitHub Releases via `python-semantic-release` when you enable the included workflow. Releases are determined by commit messages following [Conventional Commits](https://www.conventionalcommits.org/):
-
-- `fix:` → patch release
-- `feat:` → minor release
-- `feat!:` or `BREAKING CHANGE:` → major release
-
-On push to `main`, the workflow:
-1. Calculates the next version from commit history
-2. Updates `pyproject.toml` and `src/.../__init__.py` versions
-3. Updates `CHANGELOG.md`
-4. Creates a Git tag and GitHub Release
+If you want automated versioning/releases, keep `.github/workflows/semantic-release.yml` and `python-semantic-release` in `requirements-dev.txt`. Otherwise, you can remove them to stay minimal.
 
 ## License
 

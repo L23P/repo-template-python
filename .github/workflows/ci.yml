@@ -27,6 +27,8 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
           pip install -e .
+          # Security tooling used in CI
+          pip install bandit pip-audit cyclonedx-bom
       - name: Lint and type-check
         run: |
           ruff version
@@ -35,12 +37,31 @@ jobs:
           black --check .
           mypy --version
           mypy src || exit 1
+      - name: SAST (Bandit)
+        run: |
+          bandit -q -r src -x tests
+      - name: Dependency vulnerability audit (pip-audit)
+        run: |
+          pip-audit
       - name: Run tests with coverage
         run: |
-          pytest --cov=src --cov-report=xml --cov-report=term-missing -q
+          pytest --cov=src --cov-report=xml --cov-report=term-missing --cov-fail-under=80 -q
       - name: Upload coverage artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: coverage-${{ matrix.python-version }}
           path: coverage.xml
+      - name: Generate SBOM (CycloneDX)
+        run: |
+          cyclonedx-py environment -o sbom.json
+      - name: Upload SBOM artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-${{ matrix.python-version }}
+          path: sbom.json
+      - name: Secret scan (Gitleaks)
+        uses: zricethezav/gitleaks-action@v2
+        with:
+          args: "detect --source . --no-git --redact"
