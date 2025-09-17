@@ -1,5 +1,26 @@
 # CHANGELOG
 
+## v0.2.0 (2025-09-17)
+
+### Continuous Integration / Security
+
+- Gate Gitleaks to run once on latest Python to avoid artifact conflicts
+  ([`df33394`](https://github.com/L23P/repo-template-python/commit/df33394))
+- Configure Gitleaks v2 with least-privilege and env token; add PR permissions
+  ([`06b13e9`](https://github.com/L23P/repo-template-python/commit/06b13e9))
+- Checkout full git history to fix PR scan ranges for Gitleaks
+  ([`b925fdc`](https://github.com/L23P/repo-template-python/commit/b925fdc))
+- Comply with Scorecards workflow restrictions (job-level write perms only)
+  ([`1457c17`](https://github.com/L23P/repo-template-python/commit/1457c17))
+- Align workflows with SSDF/Scorecards least-privilege
+  ([`3fe62d8`](https://github.com/L23P/repo-template-python/commit/3fe62d8))
+
+### Documentation
+
+- Clarify Gitleaks: no license needed for personal repos; document single-run and full-history checkout
+  ([`b925fdc`](https://github.com/L23P/repo-template-python/commit/b925fdc))
+- SECURITY_BASELINE and README updates across CI/security tooling
+  ([`2b341af`](https://github.com/L23P/repo-template-python/commit/2b341af))
 
 ## v0.1.0 (2025-09-14)
 

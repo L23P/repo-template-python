@@ -2,6 +2,9 @@ name: Release  # Optional: manual packaging/releases; remove if not needed
 
 on:
   workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
 
 permissions:
   contents: write
