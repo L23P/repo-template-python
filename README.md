@@ -73,6 +73,11 @@ Additional security:
 - OpenSSF Scorecards (`.github/workflows/scorecards.yml`)
 - Dependabot for pip and Actions (`.github/dependabot.yml`)
 
+Secrets scanning (Gitleaks):
+- CI uses `gitleaks/gitleaks-action@v2` with least-privilege (`contents: read`, `pull-requests: read`) and no PR comments.
+- For organization-owned repos, set a repo or org secret `GITLEAKS_LICENSE` (free key at https://gitleaks.io/) as required by the action. Personal accounts do not need a license.
+- The action requires `GITHUB_TOKEN` (provided automatically) and is configured via environment variables, not inputs.
+
 See `SECURITY_BASELINE.md` for a concise mapping to NIST SSDF and what's in/out of scope.
 
 You can adjust Python versions, cache settings, or add steps as needed.
