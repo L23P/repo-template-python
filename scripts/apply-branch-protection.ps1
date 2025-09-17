@@ -29,11 +29,11 @@ if ($remote -match 'github.com[:/](?<owner>[^/]+)/(?<repo>[^/.]+)') {
 }
 if (-not $owner -or -not $repo) { Fail "Failed to parse owner/repo from remote URL: $remote" }
 
-Write-Host "Applying branch protection to $owner/$repo @$Branch ..."
+Write-Host "Applying minimal branch protection to $owner/$repo @$Branch ..."
 
-# Build protection JSON
+# Build protection JSON (minimal): require PR reviews and conversation resolution
 $protection = @{ 
-  required_status_checks = @{ strict = $true; contexts = @() }; # Add specific contexts in UI if desired
+  required_status_checks = $null; # Minimal: do not preconfigure checks; set in UI after CI establishes names
   enforce_admins = $false;
   required_pull_request_reviews = @{ 
     dismiss_stale_reviews = $true; 
@@ -41,11 +41,9 @@ $protection = @{
     required_approving_review_count = $RequiredApprovals 
   };
   restrictions = $null; # No user/team push restrictions
-  required_linear_history = $true;
   allow_force_pushes = $false;
   allow_deletions = $false;
   required_conversation_resolution = $true;
-  block_creations = $false;
 }
 
 $json = $protection | ConvertTo-Json -Depth 8
@@ -57,13 +55,4 @@ $json | gh api -X PUT "repos/$owner/$repo/branches/$Branch/protection" `
 
 if ($LASTEXITCODE -ne 0) { Fail "Failed to apply branch protection" }
 
-# Enable signed commits (commit signature protection)
-$null = gh api -X POST "repos/$owner/$repo/branches/$Branch/protection/required_signatures" `
-  -H "Accept: application/vnd.github+json" 2>$null
-if ($LASTEXITCODE -eq 0) {
-  Write-Host "Enabled commit signature protection"
-} else {
-  Write-Warning "Could not enable commit signature protection (requires admin + appropriate plan). Skipping."
-}
-
-Write-Host "Branch protection applied. Consider adding required status checks in Settings > Branches after one CI run to capture exact check names."
+Write-Host "Minimal branch protection applied. Next: add required status checks in Settings > Branches after a CI run to capture exact check names."
