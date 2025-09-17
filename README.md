@@ -75,8 +75,10 @@ Additional security:
 
 Secrets scanning (Gitleaks):
 - CI uses `gitleaks/gitleaks-action@v2` with least-privilege (`contents: read`, `pull-requests: read`) and no PR comments.
-- For organization-owned repos, set a repo or org secret `GITLEAKS_LICENSE` (free key at https://gitleaks.io/) as required by the action. Personal accounts do not need a license.
-- The action requires `GITHUB_TOKEN` (provided automatically) and is configured via environment variables, not inputs.
+- No license is required for personal accounts (individual user repos). For some organization setups, a `GITLEAKS_LICENSE` secret may be required; consult the action docs if using an org/enterprise.
+- Gitleaks runs once per workflow on the latest Python version in the matrix to avoid redundant runs.
+- The workflow checks out full history (`fetch-depth: 0`) so PR commit ranges scan correctly.
+- The action uses the default `GITHUB_TOKEN` and is configured via environment variables, not inputs.
 
 See `SECURITY_BASELINE.md` for a concise mapping to NIST SSDF and what's in/out of scope.
 
