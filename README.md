@@ -84,6 +84,23 @@ See `SECURITY_BASELINE.md` for a concise mapping to NIST SSDF and what's in/out 
 
 You can adjust Python versions, cache settings, or add steps as needed.
 
+### Branch protection and PR hygiene
+
+This template is built for protected main branches. You can apply sensible defaults with GitHub CLI from Windows PowerShell:
+
+```powershell
+# one-time auth if needed
+gh auth login
+
+# apply branch protection to main (1 approval, require linear history, resolve conversations, etc.)
+./scripts/apply-branch-protection.ps1 -Branch main -RequiredApprovals 1 -RequireCodeOwners:$false
+
+# optionally tidy up open PRs now that baseline work is done
+./scripts/tidy-pull-requests.ps1 -CloseAll -Comment "Closing as baseline is complete; please reopen with new scope."
+```
+
+Tip: After a CI run, add specific required status checks (e.g., ruff, pytest, CodeQL) under Settings → Branches to lock them in.
+
 ## Project structure
 
 ```
